@@ -34,7 +34,7 @@ Streamlit app that evaluates the saved models on uploaded test data.
 ## c. GitHub repository
 https://github.com/Vinutha-T/cellular-anomaly-classifier
 
-**Live Streamlit app:** <!-- add your streamlit.app link after deployment -->
+**Live Streamlit app:** https://lte-cell-anomaly-vinutha.streamlit.app/
 
 ```
 cellular-anomaly-classifier/

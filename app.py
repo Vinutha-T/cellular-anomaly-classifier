@@ -61,13 +61,20 @@ def evaluate(model, X, y):
 
 
 def plot_confusion(cm, title):
+    # correct predictions shaded green, errors (missed anomalies / false alarms) shaded red
     fig, ax = plt.subplots(figsize=(4.2, 3.6))
-    ax.imshow(cm, cmap="Blues")
+    cell_colours = np.zeros((2, 2, 4))
+    shares = np.zeros((2, 2))
     for i in range(2):
         for j in range(2):
-            share = cm[i, j] / cm[i].sum() if cm[i].sum() else 0
-            colour = "white" if cm[i, j] > cm.max() / 2 else "#1f2a44"
-            ax.text(j, i, f"{cm[i, j]}\n({share:.1%})", ha="center", va="center", color=colour, fontsize=11)
+            shares[i, j] = cm[i, j] / cm[i].sum() if cm[i].sum() else 0
+            cmap = plt.get_cmap("Greens" if i == j else "Reds")
+            cell_colours[i, j] = cmap(0.15 + 0.7 * shares[i, j])
+    ax.imshow(cell_colours)
+    for i in range(2):
+        for j in range(2):
+            colour = "white" if shares[i, j] > 0.5 else "#1f2a44"
+            ax.text(j, i, f"{cm[i, j]}\n({shares[i, j]:.1%})", ha="center", va="center", color=colour, fontsize=11)
     ax.set_xticks([0, 1], labels=CLASS_LABELS)
     ax.set_yticks([0, 1], labels=CLASS_LABELS)
     ax.set_xlabel("Predicted")
